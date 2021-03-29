@@ -9,17 +9,17 @@ namespace FilmwerteChallenge.Services
     public class StorageService : IStorageService
     {
         private readonly IConfiguration _config;
+        private readonly IStorageService _dataAccess;
 
-        public StorageService(IConfiguration config)
+        public StorageService(
+            IConfiguration config,
+            IStorageService dataAccess
+            )
         {
             _config = config;
+            _dataAccess = dataAccess;
         }
-
-        /// <summary>
-        /// Contains the in-memory storage for all movies.
-        /// </summary>
-        private List<Movie> videos = new List<Movie>();
-        private List<Episode> episodes = new List<Episode>();
+        
 
         /// <summary>
         /// Adds a new movie to the storage.
@@ -27,7 +27,7 @@ namespace FilmwerteChallenge.Services
         /// <param name="movie">The movie that is to be stored.</param>
         public void AddVideo(Movie movie)
         {
-            this.videos.Add(movie);
+            _dataAccess.AddVideo(movie);
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace FilmwerteChallenge.Services
         /// <param name="episode">The episode that is to be stored.</param>
         public void AddVideo(Episode episode)
         {
-            this.episodes.Add(episode);
+             _dataAccess.AddVideo(episode);
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace FilmwerteChallenge.Services
         /// <param name="movie">The movie that is to be removed from storage.</param>
         public void RemoveVideo(Movie movie)
         {
-            this.videos.Remove(movie);
+             _dataAccess.RemoveVideo(movie);
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace FilmwerteChallenge.Services
         /// <param name="episode">The movie that is to be removed from storage.</param>
         public void RemoveOneEpisode(Episode episode)
         {
-            this.episodes.Remove(episode);
+             _dataAccess.RemoveOneEpisode(episode);
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace FilmwerteChallenge.Services
         /// <returns>Returns a list of all stored movies.</returns>
         public IEnumerable<Movie> GetAllVideos()
         {
-            return this.videos;
+            return  _dataAccess.GetAllVideos();
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace FilmwerteChallenge.Services
         /// <returns>Returns a list of all stored movies.</returns>
         public IEnumerable<Episode> GetAllEpisodes()
         {
-            return this.episodes;
+            return _dataAccess.GetAllEpisodes();
         }
 
         public int WhatIsStorageType()
