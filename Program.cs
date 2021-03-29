@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using FilmwerteChallenge.Models;
 
 namespace FilmwerteChallenge
 {
@@ -61,7 +62,8 @@ namespace FilmwerteChallenge
 
             // see #2
             IEnumerable<Movie> query1 = storage.GetAllVideos(); // TODO
-            Console.WriteLine("Query 1:");
+            Console.WriteLine("\n\nQuery 1:");
+            Console.WriteLine("All movies that are longer than 30 minutes");
             foreach (Movie movie in query1)
                 Console.WriteLine(movie.Id);
 
