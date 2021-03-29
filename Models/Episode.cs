@@ -22,6 +22,8 @@ namespace FilmwerteChallenge.Models
         /// Gets or sets the Season Number
         /// </summary>
         public int SeasonNumber { get; set; }
+
+        public new int TypeOfContent = 2;
         
     }
 }

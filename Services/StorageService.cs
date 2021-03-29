@@ -1,16 +1,23 @@
 using System;
 using System.Collections.Generic;
 using FilmwerteChallenge.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace FilmwerteChallenge.Services
 {
-    public class StorageService {
-        
+    public class StorageService
+    {
+        private readonly IConfiguration _config;
+        public StorageService(IConfiguration config)
+        {
+            _config = config;
+        }
+
         /// <summary>
         /// Contains the in-memory storage for all movies.
         /// </summary>
         private List<Movie> videos = new List<Movie>();
-        private List<Episode> series = new List<Episode>();
+        private List<Episode> episodes = new List<Episode>();
 
         /// <summary>
         /// Adds a new movie to the storage.
@@ -27,7 +34,7 @@ namespace FilmwerteChallenge.Services
         /// <param name="episode">The episode that is to be stored.</param>
         public void AddVideo(Episode episode)
         {
-            this.series.Add(episode);
+            this.episodes.Add(episode);
         }
 
         /// <summary>
@@ -40,6 +47,15 @@ namespace FilmwerteChallenge.Services
         }
 
         /// <summary>
+        /// Remove a movie from the storage.
+        /// </summary>
+        /// <param name="episode">The movie that is to be removed from storage.</param>
+        public void RemoveOneEpisode(Episode episode)
+        {
+            this.episodes.Remove(episode);
+        }
+
+        /// <summary>
         /// Gets a list of all stored movies.
         /// </summary>
         /// <returns>Returns a list of all stored movies.</returns>
@@ -48,6 +64,19 @@ namespace FilmwerteChallenge.Services
             return this.videos;
         }
 
+        /// <summary>
+        /// Gets a list of all stored movies.
+        /// </summary>
+        /// <returns>Returns a list of all stored movies.</returns>
+        public IEnumerable<Episode> GetAllEpisodes()
+        {
+            return this.episodes;
+        }
+
+        public int WhatIsStorageType()
+        {
+            return _config.GetValue<int>("storageType");
+        }
 
 
     }

@@ -7,15 +7,18 @@ using FilmwerteChallenge.Services;
 
 namespace FilmwerteChallenge
 {
-    public class App{
-        public StorageService _storage;
+    public class App
+    {
+        private readonly StorageService _storage;
 
-        public App(StorageService storage) {
+        public App(StorageService storage)
+        {
             _storage = storage;
         }
 
-        public void StoreSampleData() {
-            
+        public void StoreSampleData()
+        {
+
             _storage.AddVideo(new Movie
             {
                 Title = "HAGER",
@@ -58,9 +61,28 @@ namespace FilmwerteChallenge
                 ImdbId = "tt6698964"
             });
 
+            _storage.AddVideo(new Episode
+            {
+                Title = "Beginning",
+                Duration = 4781,
+                VideoUri = "https://cdn.netflix.com/mar_2020_dark_1_1/mar_2020_dark_1_1.mpd",
+                SeasonNumber = 1,
+                SeriesTitle = "Dark",
+            });
+
+            _storage.AddVideo(new Episode
+            {
+                Title = "Apocalypse",
+                Duration = 5402,
+                VideoUri = "https://cdn.netflix.com/mar_2020_dark_1_2/mar_2020_dark_1_2.mpd",
+                SeasonNumber = 1,
+                SeriesTitle = "Dark",
+            });
+
         }
 
-        public void Query1() {
+        public void Query1()
+        {
             IEnumerable<Movie> allMovies = _storage.GetAllVideos();
             Console.WriteLine("All movies:");
             var headerSpan = "{0, -36} {1, -25} {2, -15} {3, -25}";
@@ -72,22 +94,41 @@ namespace FilmwerteChallenge
 
         }
 
-        public void Query2() {
-            IEnumerable<Movie> query1 = storage.GetAllVideos(); // TODO
+        public void Query12()
+        {
+            IEnumerable<Episode> allSeries = _storage.GetAllEpisodes();
+            Console.WriteLine("All movies:");
+            var headerSpan = "{0, -36} {1, -25} {2, -15} {3, -25}";
+            var detailSpan = "{0, -36} {1, -25} {2, 15} {3, -25}";
+
+            Console.WriteLine($"{headerSpan}\n", "ID", "Title", "Duration (mins)", "Video URI");
+            foreach (Episode ep in allSeries)
+                Console.WriteLine($"{detailSpan}", ep.Id, ep.Title, ep.Duration / 60, ep.SeriesTitle);
+
+        }
+
+        public void Query2()
+        {
+            IEnumerable<Movie> query1 = _storage.GetAllVideos(); // TODO
             Console.WriteLine("\n\nQuery 1:");
             Console.WriteLine("All movies that are longer than 30 minutes");
             foreach (Movie movie in query1)
                 Console.WriteLine(movie.Id);
 
-            IEnumerable<Movie> query2 = storage.GetAllVideos(); // TODO
+            IEnumerable<Movie> query2 = _storage.GetAllVideos(); // TODO
             Console.WriteLine("Query 2:");
             foreach (Movie movie in query2)
                 Console.WriteLine(movie.Id);
 
-            IEnumerable<Movie> query3 = storage.GetAllVideos(); // TODO
+            IEnumerable<Movie> query3 = _storage.GetAllVideos(); // TODO
             Console.WriteLine("Query 3:");
             foreach (Movie movie in query3)
                 Console.WriteLine(movie.Id);
+        }
+
+        public void WhatIsStorageType()
+        {
+            Console.WriteLine(_storage.WhatIsStorageType());
         }
 
     }

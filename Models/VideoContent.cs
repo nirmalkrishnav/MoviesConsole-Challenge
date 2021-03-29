@@ -26,5 +26,12 @@ namespace FilmwerteChallenge.Models
         /// Gets or sets the URI that points to the web storage where the movie file is located.
         /// </summary>
         public string VideoUri { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Type Of Content
+        /// 1. Movies
+        /// 2. Episode
+        /// </summary>
+        public int TypeOfContent { get; set; }
     }
 }

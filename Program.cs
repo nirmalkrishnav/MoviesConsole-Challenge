@@ -1,8 +1,11 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using FilmwerteChallenge.Models;
 using FilmwerteChallenge.Services;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using System.IO;
 
 namespace FilmwerteChallenge
 {
@@ -14,20 +17,33 @@ namespace FilmwerteChallenge
         /// <summary>
         /// Represents the main function of the program.
         /// </summary>
-        static void Main()
+        static void Main(string[] args)
         {
-            StorageService storage = new StorageService();
-            var program = new App(storage);
-            program.StoreSampleData();
+            ConfigurationBuilder builder = new ConfigurationBuilder();
+            BuildConfig(builder);
 
-            // see #1
-            program.Query1();
-          
-            // see #2
-            program.Query2();
-           
+            var host = CreateHostBuilder(args).Build();
+            var app = host.Services.GetRequiredService<App>();
+            app.WhatIsStorageType();
+        }
 
-          
+        private static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            return Host.CreateDefaultBuilder(args)
+                .ConfigureServices(services =>
+                {
+                    services.AddTransient<Program>();
+                    services.AddTransient<App>();
+                    services.AddScoped<StorageService>();
+                });
+        }
+
+        static void BuildConfig(IConfigurationBuilder builder)
+        {
+            builder.SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            .AddJsonFile("appsettings.prod.json", optional: true, reloadOnChange: true)
+            .AddEnvironmentVariables();
         }
     }
 }

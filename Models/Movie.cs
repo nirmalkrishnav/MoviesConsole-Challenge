@@ -13,5 +13,7 @@ namespace FilmwerteChallenge.Models
         /// The IMDb ID usually starts with "tt", followed by an integer.
         /// </summary>
         public string ImdbId { get; set; }
+
+        public new int TypeOfContent = 1;
     }
 }
