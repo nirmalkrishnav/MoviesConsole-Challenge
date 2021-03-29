@@ -94,7 +94,7 @@ namespace FilmwerteChallenge
 
         }
 
-        public void Query12()
+        public void QuerySeries()
         {
             IEnumerable<Episode> allSeries = _storage.GetAllEpisodes();
             Console.WriteLine("All movies:");

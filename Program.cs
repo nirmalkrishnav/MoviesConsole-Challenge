@@ -24,7 +24,8 @@ namespace FilmwerteChallenge
 
             var host = CreateHostBuilder(args).Build();
             var app = host.Services.GetRequiredService<App>();
-            app.WhatIsStorageType();
+            app.Query1();
+            app.Query2();
         }
 
         private static IHostBuilder CreateHostBuilder(string[] args)
