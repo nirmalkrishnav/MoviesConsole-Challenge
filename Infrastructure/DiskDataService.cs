@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace FilmwerteChallenge.Infrastructure
 {
-    public class DiskDataService: IStorageService
+    public class DiskDataService: IDataAccessService
     {
         private readonly IConfiguration _config;
         public DiskDataService(IConfiguration config) => _config = config;

@@ -6,8 +6,8 @@ using Microsoft.Extensions.Configuration;
 
 public class StorageAdapter : IStorageService
 {
-    readonly IStorageService _disk;
-    readonly IStorageService _memory;
+    readonly IDataAccessService _disk;
+    readonly IDataAccessService _memory;
     private readonly IConfiguration _config;
 
     public StorageAdapter(
@@ -21,7 +21,7 @@ public class StorageAdapter : IStorageService
     }
 
     private int storageType => _config.GetValue<int>("storageType");
-    private IStorageService serviceType => storageType == 1 ? _disk : _memory;
+    private IDataAccessService serviceType => storageType == 1 ? _disk : _memory;
 
     public void AddVideo(Movie movie)
     {

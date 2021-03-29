@@ -39,8 +39,8 @@ namespace FilmwerteChallenge
                     services.AddTransient<Program>();
                     services.AddTransient<App>();
                     services.AddTransient<IStorageService, StorageService>();
-                    services.AddTransient<IStorageService, DiskDataService>();
-                    services.AddTransient<IStorageService, InMemoryDataService>();
+                    services.AddTransient<IDataAccessService, DiskDataService>();
+                    services.AddTransient<IDataAccessService, InMemoryDataService>();
 
                 });
         }
