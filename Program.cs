@@ -6,6 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using System.IO;
+using FilmwerteChallenge.Infrastructure;
+using FilmwerteChallenge.Interfaces;
 
 namespace FilmwerteChallenge
 {
@@ -24,6 +26,7 @@ namespace FilmwerteChallenge
 
             var host = CreateHostBuilder(args).Build();
             var app = host.Services.GetRequiredService<App>();
+            app.StoreSampleData();
             app.Query1();
             app.Query2();
         }
@@ -35,7 +38,9 @@ namespace FilmwerteChallenge
                 {
                     services.AddTransient<Program>();
                     services.AddTransient<App>();
-                    services.AddScoped<StorageService>();
+                    services.AddTransient<IStorageService, StorageService>();
+                    services.AddTransient<DiskDataService>();
+
                 });
         }
 

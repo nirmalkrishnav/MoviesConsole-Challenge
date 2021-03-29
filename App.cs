@@ -1,17 +1,16 @@
 
 using System;
 using System.Collections.Generic;
+using FilmwerteChallenge.Interfaces;
 using FilmwerteChallenge.Models;
-using FilmwerteChallenge.Services;
-
 
 namespace FilmwerteChallenge
 {
     public class App
     {
-        private readonly StorageService _storage;
+        private readonly IStorageService _storage;
 
-        public App(StorageService storage)
+        public App(IStorageService storage)
         {
             _storage = storage;
         }

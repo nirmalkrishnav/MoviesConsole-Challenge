@@ -2,18 +2,13 @@ using System;
 using System.Collections.Generic;
 using FilmwerteChallenge.Models;
 using Microsoft.Extensions.Configuration;
-using FilmwerteChallenge.Interfaces;
 
-namespace FilmwerteChallenge.Services
+namespace FilmwerteChallenge.Infrastructure
 {
-    public class StorageService : IStorageService
+    public class InMemoryDataService
     {
         private readonly IConfiguration _config;
-
-        public StorageService(IConfiguration config)
-        {
-            _config = config;
-        }
+        public InMemoryDataService(IConfiguration config) => _config = config;
 
         /// <summary>
         /// Contains the in-memory storage for all movies.
@@ -73,11 +68,6 @@ namespace FilmwerteChallenge.Services
         public IEnumerable<Episode> GetAllEpisodes()
         {
             return this.episodes;
-        }
-
-        public int WhatIsStorageType()
-        {
-            return _config.GetValue<int>("storageType");
         }
 
     }
