@@ -1,19 +1,16 @@
-
+using System;
 using System.Collections.Generic;
-// using Microsoft.Extensions.Configuration;
 using FilmwerteChallenge.Models;
 
-namespace FilmwerteChallenge
+namespace FilmwerteChallenge.Services
 {
-    /// <summary>
-    /// Represents an in-memory storage for a list of movies.
-    /// </summary>
-    public class Storage
-    {
+    public class StorageService {
+        
         /// <summary>
         /// Contains the in-memory storage for all movies.
         /// </summary>
         private List<Movie> videos = new List<Movie>();
+        private List<Episode> series = new List<Episode>();
 
         /// <summary>
         /// Adds a new movie to the storage.
@@ -22,7 +19,15 @@ namespace FilmwerteChallenge
         public void AddVideo(Movie movie)
         {
             this.videos.Add(movie);
+        }
 
+        /// <summary>
+        /// Adds a new episode to the storage.
+        /// </summary>
+        /// <param name="episode">The episode that is to be stored.</param>
+        public void AddVideo(Episode episode)
+        {
+            this.series.Add(episode);
         }
 
         /// <summary>
@@ -42,5 +47,8 @@ namespace FilmwerteChallenge
         {
             return this.videos;
         }
+
+
+
     }
 }

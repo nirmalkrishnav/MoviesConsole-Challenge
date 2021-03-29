@@ -8,6 +8,12 @@ namespace FilmwerteChallenge.Models
     public class Episode: VideoContent
     {
         /// <summary>
+        /// Gets or sets the Series ID
+        /// </summary>
+        public string SeriesId { get; set; }
+        /// <summary>
+
+        /// <summary>
         /// Gets or sets the Series Title
         /// </summary>
         public string SeriesTitle { get; set; }
