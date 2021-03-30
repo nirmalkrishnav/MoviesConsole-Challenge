@@ -3,6 +3,3 @@ obj/
 .DS_Store
 *.dll
 .vscode/
-reports/**
-db/**
-
