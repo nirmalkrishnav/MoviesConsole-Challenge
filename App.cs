@@ -1,18 +1,26 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using FilmwerteChallenge.Interfaces;
 using FilmwerteChallenge.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace FilmwerteChallenge
 {
     public class App
     {
         private readonly IStorageService _storage;
+        private readonly IConfiguration _config;
 
-        public App(IStorageService storage)
+        public App(
+            IStorageService storage,
+            IConfiguration config
+        )
         {
             _storage = storage;
+            _config = config;
+
         }
 
         public void StoreSampleData()
@@ -149,6 +157,11 @@ namespace FilmwerteChallenge
             Console.WriteLine($"Total runtime of all movies that have an IMDb ID: {query3 / 60}");
 
 
+        }
+
+        public void ResetDataFiles()
+        {
+            File.Delete(@".\Db\movie.json");
         }
 
         public void WhatIsStorageType()

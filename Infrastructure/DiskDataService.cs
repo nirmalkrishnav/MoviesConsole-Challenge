@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.Json;
 using FilmwerteChallenge.Interfaces;
 using FilmwerteChallenge.Models;
 using Microsoft.Extensions.Configuration;
@@ -11,6 +13,9 @@ namespace FilmwerteChallenge.Infrastructure
     {
         private readonly IConfiguration _config;
         public DiskDataService(IConfiguration config) => _config = config;
+
+        private string movieJsonFile => _config.GetValue<string>("movieJson");
+        private string episodeJsonFile => _config.GetValue<string>("episodeJson");
 
         /// <summary>
         /// Contains the in-memory storage for all movies.
@@ -24,7 +29,18 @@ namespace FilmwerteChallenge.Infrastructure
         /// <param name="movie">The movie that is to be stored.</param>
         public void AddVideo(Movie movie)
         {
-            this.videos.Add(movie);
+            try
+            {
+                string jsonStr = File.ReadAllText(@movieJsonFile);
+                this.videos = JsonSerializer.Deserialize<List<Movie>>(jsonStr);
+                this.videos.Add(movie);
+            }
+            catch (IOException e)
+            {
+                this.videos.Add(movie);
+            }
+            string json = JsonSerializer.Serialize(this.videos);
+            File.WriteAllText(@movieJsonFile, json);
         }
 
         /// <summary>
@@ -33,7 +49,18 @@ namespace FilmwerteChallenge.Infrastructure
         /// <param name="episode">The episode that is to be stored.</param>
         public void AddVideo(Episode episode)
         {
-            this.episodes.Add(episode);
+            try
+            {
+                string jsonStr = File.ReadAllText(@movieJsonFile);
+                this.episodes = JsonSerializer.Deserialize<List<Episode>>(jsonStr);
+                this.episodes.Add(episode);
+            }
+            catch (IOException e)
+            {
+                this.episodes.Add(episode);
+            }
+            string json = JsonSerializer.Serialize(this.episodes);
+            File.WriteAllText(@movieJsonFile, json);
         }
 
         /// <summary>
@@ -60,8 +87,9 @@ namespace FilmwerteChallenge.Infrastructure
         /// <returns>Returns a list of all stored movies.</returns>
         public IEnumerable<Movie> GetAllVideos(SortParam sortParam)
         {
-            IEnumerable<Movie> result = this.videos;
-            return result;
+            string json = File.ReadAllText(@movieJsonFile);
+            this.videos = JsonSerializer.Deserialize<List<Movie>>(json);
+            return this.videos;
         }
 
         /// <summary>
@@ -75,7 +103,7 @@ namespace FilmwerteChallenge.Infrastructure
 
         public int WhatIsStorageType()
         {
-            throw new NotImplementedException();
+            return 0;
         }
     }
 }

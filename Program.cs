@@ -24,23 +24,34 @@ namespace FilmwerteChallenge
             ConfigurationBuilder builder = new ConfigurationBuilder();
             BuildConfig(builder);
 
-            var host = CreateHostBuilder(args).Build();
+
+            var host = CreateHostBuilder(args, builder).Build();
             var app = host.Services.GetRequiredService<App>();
             app.StoreSampleData();
             app.Query1();
             app.Query2();
         }
 
-        private static IHostBuilder CreateHostBuilder(string[] args)
+        private static IHostBuilder CreateHostBuilder(string[] args, ConfigurationBuilder builder)
         {
+            IConfiguration configuration = builder.Build();
+
+
             return Host.CreateDefaultBuilder(args)
                 .ConfigureServices(services =>
                 {
                     services.AddTransient<Program>();
                     services.AddTransient<App>();
                     services.AddTransient<IStorageService, StorageService>();
-                    services.AddTransient<IDataAccessService, DiskDataService>();
-                    services.AddTransient<IDataAccessService, InMemoryDataService>();
+
+                    if (configuration.GetValue<int>("storageType") == 1)
+                    {
+                        services.AddTransient<IDataAccessService, InMemoryDataService>();
+                    }
+                    else
+                    {
+                        services.AddTransient<IDataAccessService, DiskDataService>();
+                    }
 
                 });
         }

@@ -76,7 +76,7 @@ namespace FilmwerteChallenge.Infrastructure
         }
         public int WhatIsStorageType()
         {
-            throw new NotImplementedException();
+            return 1;
         }
 
     }
