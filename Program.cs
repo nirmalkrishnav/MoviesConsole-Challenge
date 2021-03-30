@@ -24,9 +24,9 @@ namespace FilmwerteChallenge
             ConfigurationBuilder builder = new ConfigurationBuilder();
             BuildConfig(builder);
 
-
             var host = CreateHostBuilder(args, builder).Build();
             var app = host.Services.GetRequiredService<App>();
+            app.WhatIsStorageType();
             app.StoreSampleData();
             app.Query1();
             app.Query2();
@@ -58,6 +58,10 @@ namespace FilmwerteChallenge
                 });
         }
 
+
+        /// <summary>
+        /// Config file to support multiple types of storage, and other env vars
+        /// </summary>
         static void BuildConfig(IConfigurationBuilder builder)
         {
             builder.SetBasePath(Directory.GetCurrentDirectory())

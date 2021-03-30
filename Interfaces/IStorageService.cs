@@ -11,7 +11,7 @@ namespace FilmwerteChallenge.Interfaces
         void RemoveOneEpisode(Episode episode);
         IEnumerable<Movie> GetAllMovies(QueryParam sortparam);
         IEnumerable<Episode> GetAllEpisodes(QueryParam sortParam);
-        int WhatIsStorageType();
+        string WhatIsStorageType();
         int GetAllVideosRunTimeTotal(QueryParam sortParam);
         void GenerateReport();
         

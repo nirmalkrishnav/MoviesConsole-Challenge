@@ -48,6 +48,7 @@ namespace FilmwerteChallenge.Services
         }
 
         /// <summary>
+        /// Work in progress
         /// Remove a movie from the storage.
         /// </summary>
         /// <param name="movie">The movie that is to be removed from storage.</param>
@@ -57,6 +58,7 @@ namespace FilmwerteChallenge.Services
         }
 
         /// <summary>
+        /// Work in progress
         /// Remove a movie from the storage.
         /// </summary>
         /// <param name="episode">The movie that is to be removed from storage.</param>
@@ -109,9 +111,9 @@ namespace FilmwerteChallenge.Services
         }
 
         /// <summary>
-        /// Gets a list of all stored movies.
+        /// Gets a list of all stored Episodes.
         /// </summary>
-        /// <returns>Returns a list of all stored movies.</returns>
+        /// <returns>Returns a list of all stored episodes.</returns>
         public IEnumerable<Episode> GetAllEpisodes(QueryParam sortParam)
         {
             var result = _dataAccess.GetAllEpisodes();
@@ -136,9 +138,9 @@ namespace FilmwerteChallenge.Services
             return result;
         }
 
-        public int WhatIsStorageType()
+        public string WhatIsStorageType()
         {
-            return _config.GetValue<int>("storageType");
+            return _dataAccess.WhatIsStorageType();
         }
 
         public void GenerateReport()

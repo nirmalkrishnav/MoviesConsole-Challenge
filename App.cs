@@ -29,6 +29,9 @@ namespace FilmwerteChallenge
 
         }
 
+        /// <summary>
+        /// Adds sample data of movies and episodes to work on initially according to storage type
+        /// </summary>
         public void StoreSampleData()
         {
 
@@ -101,6 +104,10 @@ namespace FilmwerteChallenge
 
         }
 
+        /// <summary>
+        /// Basic listing of movies on the console 
+        /// ## 1. Add an option to print out movies formatted on the console
+        /// </summary>
         public void Query1()
         {
             IEnumerable<Movie> allMovies = _storage.GetAllMovies(new QueryParam());
@@ -113,19 +120,11 @@ namespace FilmwerteChallenge
 
         }
 
-        public void QuerySeries()
-        {
-            IEnumerable<Episode> allSeries = _storage.GetAllEpisodes(new QueryParam());
-            Console.WriteLine("\n\nAll Episodes extended:");
-            var headerSpan = "{0, -36} {1, -25} {2, -15} {3, -20} {4, -25}";
-            var detailSpan = "{0, -36} {1, -25} {2, 15} {3, -20} {4, -25}";
 
-            Console.WriteLine($"{headerSpan}\n", "ID", "Title", "Duration (mins)", "Series Title", "Video URI");
-            foreach (Episode ep in allSeries)
-                Console.WriteLine($"{detailSpan}", ep.Id, ep.Title.Truncate(22), ep.Duration / 60, ep.SeriesTitle.Truncate(15), ep.VideoUri.Truncate(22));
-
-        }
-
+        /// <summary>
+        /// Basic listing of episodes on the console 
+        /// ## 2. Query the movies list
+        /// </summary>
         public void Query2()
         {
             IEnumerable<Movie> query1 = _storage.GetAllMovies(new QueryParam()
@@ -171,6 +170,27 @@ namespace FilmwerteChallenge
 
         }
 
+        /// <summary>
+        /// Basic listing of episodes on the console 
+        /// ## 3. Modify the design of the program, so that it also supports episodes (of series)
+        /// </summary>
+        public void QuerySeries()
+        {
+            IEnumerable<Episode> allSeries = _storage.GetAllEpisodes(new QueryParam());
+            Console.WriteLine("\n\nAll Episodes extended:");
+            var headerSpan = "{0, -36} {1, -25} {2, -15} {3, -20} {4, -25}";
+            var detailSpan = "{0, -36} {1, -25} {2, 15} {3, -20} {4, -25}";
+
+            Console.WriteLine($"{headerSpan}\n", "ID", "Title", "Duration (mins)", "Series Title", "Video URI");
+            foreach (Episode ep in allSeries)
+                Console.WriteLine($"{detailSpan}", ep.Id, ep.Title.Truncate(22), ep.Duration / 60, ep.SeriesTitle.Truncate(15), ep.VideoUri.Truncate(22));
+
+        }
+
+        /// <summary>
+        /// Generates and exports as excel the list of movies and episodes
+        /// ## 6. Add an export component
+        /// </summary>
         public void GenerateReport()
         {
             try
@@ -183,9 +203,13 @@ namespace FilmwerteChallenge
             }
         }
 
+        /// <summary>
+        /// Prompts the type of storage currently used
+        /// ## 6. Add an export component
+        /// </summary>
         public void WhatIsStorageType()
         {
-            Console.WriteLine(_storage.WhatIsStorageType());
+            Console.WriteLine($"Storage currently used: {_storage.WhatIsStorageType()}\n");
         }
 
     }

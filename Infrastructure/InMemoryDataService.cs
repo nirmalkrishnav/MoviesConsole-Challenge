@@ -73,9 +73,9 @@ namespace FilmwerteChallenge.Infrastructure
             return this.episodes;
         }
 
-        public int WhatIsStorageType()
+        public string WhatIsStorageType()
         {
-            return 1;
+            return "In Memory";
         }
 
     }

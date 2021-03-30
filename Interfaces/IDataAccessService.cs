@@ -11,7 +11,7 @@ namespace FilmwerteChallenge.Interfaces
         void RemoveOneEpisode(Episode episode);
         IEnumerable<Movie> GetAllMovies();
         IEnumerable<Episode> GetAllEpisodes();
-        int WhatIsStorageType();
+        string WhatIsStorageType();
 
     }
 }

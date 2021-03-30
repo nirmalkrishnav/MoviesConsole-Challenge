@@ -37,7 +37,7 @@ namespace FilmwerteChallenge.Infrastructure
             }
             catch (IOException e)
             {
-                 
+                var err = e.Message; // logger
                 this.videos.Add(movie);
             }
             string json = JsonSerializer.Serialize(this.videos);
@@ -58,6 +58,7 @@ namespace FilmwerteChallenge.Infrastructure
             }
             catch (IOException e)
             {
+                var err = e.Message; // logger
                 this.episodes.Add(episode);
             }
             string json = JsonSerializer.Serialize(this.episodes);
@@ -104,9 +105,9 @@ namespace FilmwerteChallenge.Infrastructure
             return this.episodes;
         }
 
-        public int WhatIsStorageType()
+        public string WhatIsStorageType()
         {
-            return 0;
+            return "Disk";
         }
     }
 }
