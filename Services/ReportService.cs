@@ -72,6 +72,7 @@ namespace FilmwerteChallenge.Services
                     worksheet2.Cell(currentRow, 5).Value = episode.VideoUri;
                 }
                 workbook.SaveAs(reportPath);
+                Console.WriteLine($"\nReport generated\n{reportPath}");
             }
 
         }

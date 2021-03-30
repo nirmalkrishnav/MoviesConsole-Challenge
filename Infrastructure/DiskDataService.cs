@@ -37,6 +37,7 @@ namespace FilmwerteChallenge.Infrastructure
             }
             catch (IOException e)
             {
+                 
                 this.videos.Add(movie);
             }
             string json = JsonSerializer.Serialize(this.videos);

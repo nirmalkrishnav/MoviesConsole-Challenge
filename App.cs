@@ -72,11 +72,11 @@ namespace FilmwerteChallenge
 
             _storage.AddVideo(new Movie
             {
-                Title = "HAGER",
-                Duration = 4781,
+                Title = "HAGER 2",
+                Duration = 5000,
                 TypeOfContent = ContentType.Movie,
                 VideoUri = "https://cdn.sample.com/nov_2019_hager_pro_res_1_1/nov_2019_hager_pro_res_1_1.mpd",
-                ImdbId = "tt6698964"
+                ImdbId = "tt669832"
             });
 
             _storage.AddVideo(new Episode
@@ -109,14 +109,14 @@ namespace FilmwerteChallenge
             var detailSpan = "{0, -36} {1, -25} {2, -10} {3, 15} {4, -25}";
             Console.WriteLine($"{headerSpan}\n", "ID", "Title", "IMDB ID", "Duration (mins)", "Video URI");
             foreach (Movie movie in allMovies)
-                Console.WriteLine($"{detailSpan}", movie.Id, movie.Title.Truncate(22), movie.ImdbId.Truncate(10) ,movie.Duration / 60, movie.VideoUri.Truncate(20));
+                Console.WriteLine($"{detailSpan}", movie.Id, movie.Title.Truncate(22), movie.ImdbId.Truncate(10), movie.Duration / 60, movie.VideoUri.Truncate(20));
 
         }
 
         public void QuerySeries()
         {
             IEnumerable<Episode> allSeries = _storage.GetAllEpisodes(new QueryParam());
-            Console.WriteLine("\n\nAll Episodes:");
+            Console.WriteLine("\n\nAll Episodes extended:");
             var headerSpan = "{0, -36} {1, -25} {2, -15} {3, -20} {4, -25}";
             var detailSpan = "{0, -36} {1, -25} {2, 15} {3, -20} {4, -25}";
 
@@ -142,7 +142,6 @@ namespace FilmwerteChallenge
                 Console.WriteLine(movie.Title);
 
 
-
             IEnumerable<Movie> query2 = _storage.GetAllMovies(new QueryParam()
             {
                 OrderBy = "TITLE",
@@ -154,8 +153,9 @@ namespace FilmwerteChallenge
             }); // TODO
             Console.WriteLine("\n\nQuery 2:");
             Console.WriteLine("All movies that are hosted on YouTube, ordered by title");
+            var detailSpan = "{0, -36} {1, -30}";
             foreach (Movie movie in query2)
-                Console.WriteLine($"{movie.Title}\t {movie.VideoUri}");
+                Console.WriteLine($"{detailSpan}", movie.Title, movie.VideoUri);
 
 
             int query3 = _storage.GetAllVideosRunTimeTotal(new QueryParam()
@@ -166,8 +166,7 @@ namespace FilmwerteChallenge
                     VideoContentType = Enums.ContentType.Movie
                 },
             });
-            Console.WriteLine($"\n\nQuery 3:");
-            Console.WriteLine($"Total runtime of all movies that have an IMDb ID: {query3 / 60}");
+            Console.WriteLine($"\nQuery 3:\nTotal runtime of all movies that have an IMDb ID:\n{query3 / 60} mins");
 
 
         }
@@ -177,7 +176,6 @@ namespace FilmwerteChallenge
             try
             {
                 _storage.GenerateReport();
-                Console.WriteLine("Report generated");
             }
             catch (Exception e)
             {
