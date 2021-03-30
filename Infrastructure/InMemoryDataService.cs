@@ -59,7 +59,7 @@ namespace FilmwerteChallenge.Infrastructure
         /// Gets a list of all stored movies.
         /// </summary>
         /// <returns>Returns a list of all stored movies.</returns>
-        public IEnumerable<Movie> GetAllVideos(SortParam sortParam)
+        public IEnumerable<Movie> GetAllMovies()
         {
             IEnumerable<Movie> result = this.videos;
             return result;
@@ -72,7 +72,6 @@ namespace FilmwerteChallenge.Infrastructure
         public IEnumerable<Episode> GetAllEpisodes()
         {
             return this.episodes;
-
         }
         public int WhatIsStorageType()
         {

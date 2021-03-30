@@ -29,7 +29,9 @@ namespace FilmwerteChallenge
             var app = host.Services.GetRequiredService<App>();
             app.StoreSampleData();
             app.Query1();
+            app.QuerySeries();
             app.Query2();
+            app.GenerateReport();
         }
 
         private static IHostBuilder CreateHostBuilder(string[] args, ConfigurationBuilder builder)
@@ -43,6 +45,7 @@ namespace FilmwerteChallenge
                     services.AddTransient<Program>();
                     services.AddTransient<App>();
                     services.AddTransient<IStorageService, StorageService>();
+                    services.AddTransient<IReportService, ReportService>();
 
                     if (configuration.GetValue<int>("storageType") == 1)
                     {

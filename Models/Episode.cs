@@ -1,11 +1,12 @@
 using System;
+using FilmwerteChallenge.Enums;
 
 namespace FilmwerteChallenge.Models
 {
     /// <summary>
     /// Represents a set of metadata of an Episode.
     /// </summary>
-    public class Episode: VideoContent
+    public class Episode : VideoContent
     {
         /// <summary>
         /// Gets or sets the Series ID
@@ -22,8 +23,5 @@ namespace FilmwerteChallenge.Models
         /// Gets or sets the Season Number
         /// </summary>
         public int SeasonNumber { get; set; }
-
-        public new int TypeOfContent = 2;
-        
     }
 }

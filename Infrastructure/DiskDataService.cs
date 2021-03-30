@@ -51,7 +51,7 @@ namespace FilmwerteChallenge.Infrastructure
         {
             try
             {
-                string jsonStr = File.ReadAllText(@movieJsonFile);
+                string jsonStr = File.ReadAllText(@episodeJsonFile);
                 this.episodes = JsonSerializer.Deserialize<List<Episode>>(jsonStr);
                 this.episodes.Add(episode);
             }
@@ -60,7 +60,7 @@ namespace FilmwerteChallenge.Infrastructure
                 this.episodes.Add(episode);
             }
             string json = JsonSerializer.Serialize(this.episodes);
-            File.WriteAllText(@movieJsonFile, json);
+            File.WriteAllText(@episodeJsonFile, json);
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace FilmwerteChallenge.Infrastructure
         /// Gets a list of all stored movies.
         /// </summary>
         /// <returns>Returns a list of all stored movies.</returns>
-        public IEnumerable<Movie> GetAllVideos(SortParam sortParam)
+        public IEnumerable<Movie> GetAllMovies()
         {
             string json = File.ReadAllText(@movieJsonFile);
             this.videos = JsonSerializer.Deserialize<List<Movie>>(json);
@@ -98,6 +98,8 @@ namespace FilmwerteChallenge.Infrastructure
         /// <returns>Returns a list of all stored movies.</returns>
         public IEnumerable<Episode> GetAllEpisodes()
         {
+            string json = File.ReadAllText(@episodeJsonFile);
+            this.episodes = JsonSerializer.Deserialize<List<Episode>>(json);
             return this.episodes;
         }
 

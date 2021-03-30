@@ -4,6 +4,7 @@ using FilmwerteChallenge.Models;
 using Microsoft.Extensions.Configuration;
 using FilmwerteChallenge.Interfaces;
 using System.Linq;
+using FilmwerteChallenge.Enums;
 
 namespace FilmwerteChallenge.Services
 {
@@ -62,9 +63,9 @@ namespace FilmwerteChallenge.Services
         /// Gets a list of all stored movies.
         /// </summary>
         /// <returns>Returns a list of all stored movies.</returns>
-        public IEnumerable<Movie> GetAllVideos(SortParam sortParam)
+        public IEnumerable<Movie> GetAllMovies(QueryParam sortParam)
         {
-            var result = _dataAccess.GetAllVideos(sortParam);
+            var result = _dataAccess.GetAllMovies();
             if (sortParam.FilterParam.MinDuration > 0)
             {
                 result = result.Where(movie => movie.Duration > sortParam.FilterParam.MinDuration);
@@ -91,21 +92,42 @@ namespace FilmwerteChallenge.Services
             return result;
         }
 
-        public int GetAllVideosRunTimeTotal(SortParam sortParam)
+        /// <summary>
+        /// Gets sum of total duration according to sort,filter param.
+        /// </summary>
+        /// <returns>Returns a int  total duration in seconds.</returns>
+        public int GetAllVideosRunTimeTotal(QueryParam sortParam)
         {
-            var result = GetAllVideos(sortParam);
-
+            var result = GetAllMovies(sortParam);
             return result.Select(m => m.Duration).Aggregate(0, (acc, x) => acc + x);
-
         }
 
         /// <summary>
         /// Gets a list of all stored movies.
         /// </summary>
         /// <returns>Returns a list of all stored movies.</returns>
-        public IEnumerable<Episode> GetAllEpisodes()
+        public IEnumerable<Episode> GetAllEpisodes(QueryParam sortParam)
         {
-            return _dataAccess.GetAllEpisodes();
+            var result = _dataAccess.GetAllEpisodes();
+            if (sortParam.FilterParam.MinDuration > 0)
+            {
+                result = result.Where(movie => movie.Duration > sortParam.FilterParam.MinDuration);
+            }
+
+            if (sortParam.FilterParam.Domain != null && sortParam.FilterParam.Domain.Length > 0)
+            {
+                result = result.Where(movie => new Uri(movie.VideoUri).Host.ToUpper().Contains(sortParam.FilterParam.Domain.ToUpper()));
+            }
+
+            switch (sortParam.OrderBy)
+            {
+                case "TITLE":
+                    result = result.OrderBy(movie => movie.Title);
+                    break;
+            }
+
+
+            return result;
         }
 
         public int WhatIsStorageType()

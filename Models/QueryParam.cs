@@ -2,7 +2,7 @@ using FilmwerteChallenge.Enums;
 
 namespace FilmwerteChallenge.Models
 {
-    public class SortParam
+    public class QueryParam
     {
         public FilterParam FilterParam { get; set; } = new FilterParam();
         public string OrderBy { get; set; } = "";

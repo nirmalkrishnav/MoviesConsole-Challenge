@@ -1,4 +1,5 @@
 using System;
+using FilmwerteChallenge.Enums;
 
 namespace FilmwerteChallenge.Models
 {
@@ -7,7 +8,7 @@ namespace FilmwerteChallenge.Models
     /// </summary>
     public class VideoContent
     {
-         /// <summary>
+        /// <summary>
         /// Gets or sets the ID of the movie, which is globally unique.
         /// </summary>
         public string Id { get; set; } = Guid.NewGuid().ToString();
@@ -15,8 +16,9 @@ namespace FilmwerteChallenge.Models
         /// <summary>
         /// Gets or sets the official movie title in English.
         /// </summary>
+
         public string Title { get; set; }
-         /// <summary>
+        /// <summary>
 
         /// Gets or sets the duration of the movie in seconds.
         /// </summary>
@@ -32,6 +34,6 @@ namespace FilmwerteChallenge.Models
         /// 1. Movies
         /// 2. Episode
         /// </summary>
-        public int TypeOfContent { get; set; }
+        public ContentType TypeOfContent { get; set; }
     }
 }
