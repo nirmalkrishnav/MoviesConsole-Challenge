@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using FilmwerteChallenge.Interfaces;
 using System.Linq;
 using FilmwerteChallenge.Enums;
+using ClosedXML.Excel;
 
 namespace FilmwerteChallenge.Services
 {
@@ -12,16 +13,21 @@ namespace FilmwerteChallenge.Services
     {
         private readonly IConfiguration _config;
         private readonly IDataAccessService _dataAccess;
+        private readonly IReportService _reportService;
+
 
         public StorageService(
             IConfiguration config,
-            IDataAccessService dataAccess
+            IDataAccessService dataAccess,
+             IReportService reportService
             )
         {
             _config = config;
             _dataAccess = dataAccess;
+            _reportService = reportService;
         }
 
+        private string reportsPath => _config.GetValue<string>("reportsPath");
 
         /// <summary>
         /// Adds a new movie to the storage.
@@ -135,5 +141,12 @@ namespace FilmwerteChallenge.Services
             return _config.GetValue<int>("storageType");
         }
 
+        public void GenerateReport()
+        {
+            IEnumerable<Movie> allMovies = _dataAccess.GetAllMovies();
+            IEnumerable<Episode> allEpisodes = _dataAccess.GetAllEpisodes();
+
+            _reportService.GenerateReport(allMovies, allEpisodes);
+        }
     }
 }

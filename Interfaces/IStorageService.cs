@@ -13,6 +13,7 @@ namespace FilmwerteChallenge.Interfaces
         IEnumerable<Episode> GetAllEpisodes(QueryParam sortParam);
         int WhatIsStorageType();
         int GetAllVideosRunTimeTotal(QueryParam sortParam);
+        void GenerateReport();
         
     }
 }

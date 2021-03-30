@@ -16,6 +16,7 @@ namespace FilmwerteChallenge.Services
         private readonly IConfiguration _config;
         private readonly IDataAccessService _dataAccess;
 
+
         public ReportService(
             IConfiguration config,
             IDataAccessService dataAccess
@@ -27,11 +28,8 @@ namespace FilmwerteChallenge.Services
 
         private string reportsPath => _config.GetValue<string>("reportsPath");
 
-        public void GenerateReport()
+        public void GenerateReport(IEnumerable<Movie> allMovies, IEnumerable<Episode> allEpisodes)
         {
-            IEnumerable<Movie> movies = _dataAccess.GetAllMovies();
-            IEnumerable<Episode> episodes = _dataAccess.GetAllEpisodes();
-
             var reportPath = $"{reportsPath}report_{DateTime.Now.ToString("yyyy-MM-dd_HH-mm")}.xlsx";
 
             using (var workbook = new XLWorkbook())
@@ -45,7 +43,7 @@ namespace FilmwerteChallenge.Services
                 worksheet1.Cell(currentRow, 4).Value = "Duration";
                 worksheet1.Cell(currentRow, 5).Value = "Video URI";
 
-                foreach (Movie movie in movies)
+                foreach (Movie movie in allMovies)
                 {
                     currentRow++;
                     worksheet1.Cell(currentRow, 1).Value = movie.Id;
@@ -54,7 +52,6 @@ namespace FilmwerteChallenge.Services
                     worksheet1.Cell(currentRow, 4).Value = movie.Duration;
                     worksheet1.Cell(currentRow, 5).Value = movie.VideoUri;
                 }
-
 
                 var worksheet2 = workbook.Worksheets.Add("Episodes");
                 currentRow = 1;
@@ -65,7 +62,7 @@ namespace FilmwerteChallenge.Services
                 worksheet2.Cell(currentRow, 4).Value = "Duration";
                 worksheet2.Cell(currentRow, 5).Value = "Video URI";
 
-                foreach (Episode episode in episodes)
+                foreach (Episode episode in allEpisodes)
                 {
                     currentRow++;
                     worksheet2.Cell(currentRow, 1).Value = episode.Id;
@@ -74,10 +71,9 @@ namespace FilmwerteChallenge.Services
                     worksheet2.Cell(currentRow, 4).Value = episode.Duration / 60;
                     worksheet2.Cell(currentRow, 5).Value = episode.VideoUri;
                 }
-
                 workbook.SaveAs(reportPath);
-
             }
+
         }
 
     }

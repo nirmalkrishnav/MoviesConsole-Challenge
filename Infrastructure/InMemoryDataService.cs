@@ -61,18 +61,18 @@ namespace FilmwerteChallenge.Infrastructure
         /// <returns>Returns a list of all stored movies.</returns>
         public IEnumerable<Movie> GetAllMovies()
         {
-            IEnumerable<Movie> result = this.videos;
-            return result;
+            return this.videos;
         }
 
         /// <summary>
-        /// Gets a list of all stored movies.
+        /// Gets a list of all stored episodes.
         /// </summary>
-        /// <returns>Returns a list of all stored movies.</returns>
+        /// <returns>Returns a list of all stored Episodes.</returns>
         public IEnumerable<Episode> GetAllEpisodes()
         {
             return this.episodes;
         }
+
         public int WhatIsStorageType()
         {
             return 1;

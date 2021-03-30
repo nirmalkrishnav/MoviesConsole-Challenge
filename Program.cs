@@ -29,8 +29,8 @@ namespace FilmwerteChallenge
             var app = host.Services.GetRequiredService<App>();
             app.StoreSampleData();
             app.Query1();
-            app.QuerySeries();
             app.Query2();
+            app.QuerySeries();
             app.GenerateReport();
         }
 
@@ -45,8 +45,6 @@ namespace FilmwerteChallenge
                     services.AddTransient<Program>();
                     services.AddTransient<App>();
                     services.AddTransient<IStorageService, StorageService>();
-                    services.AddTransient<IReportService, ReportService>();
-
                     if (configuration.GetValue<int>("storageType") == 1)
                     {
                         services.AddTransient<IDataAccessService, InMemoryDataService>();
@@ -55,6 +53,7 @@ namespace FilmwerteChallenge
                     {
                         services.AddTransient<IDataAccessService, DiskDataService>();
                     }
+                    services.AddTransient<IReportService, ReportService>();
 
                 });
         }

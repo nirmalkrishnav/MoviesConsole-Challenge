@@ -6,7 +6,7 @@ using FilmwerteChallenge.Interfaces;
 using FilmwerteChallenge.Models;
 using Microsoft.Extensions.Configuration;
 using FilmwerteChallenge.Enums;
-
+using FilmwerteChallenge.Helpers;
 
 namespace FilmwerteChallenge
 {
@@ -105,11 +105,11 @@ namespace FilmwerteChallenge
         {
             IEnumerable<Movie> allMovies = _storage.GetAllMovies(new QueryParam());
             Console.WriteLine("All movies:");
-            var headerSpan = "{0, -36} {1, -25} {2, -15} {3, -25}";
-            var detailSpan = "{0, -36} {1, -25} {2, 15} {3, -25}";
-            Console.WriteLine($"{headerSpan}\n", "ID", "Title", "Duration (mins)", "Video URI");
+            var headerSpan = "{0, -36} {1, -25} {2, -10} {3, -15} {4, -25}";
+            var detailSpan = "{0, -36} {1, -25} {2, -10} {3, 15} {4, -25}";
+            Console.WriteLine($"{headerSpan}\n", "ID", "Title", "IMDB ID", "Duration (mins)", "Video URI");
             foreach (Movie movie in allMovies)
-                Console.WriteLine($"{detailSpan}", movie.Id, movie.Title, movie.Duration / 60, new Uri(movie.VideoUri).Host);
+                Console.WriteLine($"{detailSpan}", movie.Id, movie.Title.Truncate(22), movie.ImdbId.Truncate(10) ,movie.Duration / 60, movie.VideoUri.Truncate(20));
 
         }
 
@@ -117,12 +117,12 @@ namespace FilmwerteChallenge
         {
             IEnumerable<Episode> allSeries = _storage.GetAllEpisodes(new QueryParam());
             Console.WriteLine("\n\nAll Episodes:");
-            var headerSpan = "{0, -36} {1, -25} {2, -15} {3, -25}";
-            var detailSpan = "{0, -36} {1, -25} {2, 15} {3, -25}";
+            var headerSpan = "{0, -36} {1, -25} {2, -15} {3, -20} {4, -25}";
+            var detailSpan = "{0, -36} {1, -25} {2, 15} {3, -20} {4, -25}";
 
-            Console.WriteLine($"{headerSpan}\n", "ID", "Title", "Duration (mins)", "Video URI");
+            Console.WriteLine($"{headerSpan}\n", "ID", "Title", "Duration (mins)", "Series Title", "Video URI");
             foreach (Episode ep in allSeries)
-                Console.WriteLine($"{detailSpan}", ep.Id, ep.Title, ep.Duration / 60, ep.SeriesTitle);
+                Console.WriteLine($"{detailSpan}", ep.Id, ep.Title.Truncate(22), ep.Duration / 60, ep.SeriesTitle.Truncate(15), ep.VideoUri.Truncate(22));
 
         }
 
@@ -155,7 +155,7 @@ namespace FilmwerteChallenge
             Console.WriteLine("\n\nQuery 2:");
             Console.WriteLine("All movies that are hosted on YouTube, ordered by title");
             foreach (Movie movie in query2)
-                Console.WriteLine(movie.Title);
+                Console.WriteLine($"{movie.Title}\t {movie.VideoUri}");
 
 
             int query3 = _storage.GetAllVideosRunTimeTotal(new QueryParam()
@@ -176,7 +176,7 @@ namespace FilmwerteChallenge
         {
             try
             {
-                _report.GenerateReport();
+                _storage.GenerateReport();
                 Console.WriteLine("Report generated");
             }
             catch (Exception e)
