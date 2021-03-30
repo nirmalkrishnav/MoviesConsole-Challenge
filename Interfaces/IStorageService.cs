@@ -9,8 +9,10 @@ namespace FilmwerteChallenge.Interfaces
         void AddVideo(Episode episode);
         void RemoveVideo(Movie movie);
         void RemoveOneEpisode(Episode episode);
-        IEnumerable<Movie> GetAllVideos();
+        IEnumerable<Movie> GetAllVideos(SortParam sortparam);
         IEnumerable<Episode> GetAllEpisodes();
         int WhatIsStorageType();
+        int GetAllVideosRunTimeTotal(SortParam sortParam);
+        
     }
 }

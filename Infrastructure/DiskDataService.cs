@@ -1,16 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using FilmwerteChallenge.Interfaces;
 using FilmwerteChallenge.Models;
 using Microsoft.Extensions.Configuration;
 
 namespace FilmwerteChallenge.Infrastructure
 {
-    public class DiskDataService: IDataAccessService
+    public class DiskDataService : IDataAccessService
     {
         private readonly IConfiguration _config;
         public DiskDataService(IConfiguration config) => _config = config;
-        
+
         /// <summary>
         /// Contains the in-memory storage for all movies.
         /// </summary>
@@ -57,9 +58,10 @@ namespace FilmwerteChallenge.Infrastructure
         /// Gets a list of all stored movies.
         /// </summary>
         /// <returns>Returns a list of all stored movies.</returns>
-        public IEnumerable<Movie> GetAllVideos()
+        public IEnumerable<Movie> GetAllVideos(SortParam sortParam)
         {
-            return this.videos;
+            IEnumerable<Movie> result = this.videos;
+            return result;
         }
 
         /// <summary>

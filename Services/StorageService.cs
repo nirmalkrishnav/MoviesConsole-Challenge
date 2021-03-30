@@ -3,23 +3,24 @@ using System.Collections.Generic;
 using FilmwerteChallenge.Models;
 using Microsoft.Extensions.Configuration;
 using FilmwerteChallenge.Interfaces;
+using System.Linq;
 
 namespace FilmwerteChallenge.Services
 {
     public class StorageService : IStorageService
     {
         private readonly IConfiguration _config;
-        private readonly IStorageService _dataAccess;
+        private readonly IDataAccessService _dataAccess;
 
         public StorageService(
             IConfiguration config,
-            IStorageService dataAccess
+            IDataAccessService dataAccess
             )
         {
             _config = config;
             _dataAccess = dataAccess;
         }
-        
+
 
         /// <summary>
         /// Adds a new movie to the storage.
@@ -36,7 +37,7 @@ namespace FilmwerteChallenge.Services
         /// <param name="episode">The episode that is to be stored.</param>
         public void AddVideo(Episode episode)
         {
-             _dataAccess.AddVideo(episode);
+            _dataAccess.AddVideo(episode);
         }
 
         /// <summary>
@@ -45,7 +46,7 @@ namespace FilmwerteChallenge.Services
         /// <param name="movie">The movie that is to be removed from storage.</param>
         public void RemoveVideo(Movie movie)
         {
-             _dataAccess.RemoveVideo(movie);
+            _dataAccess.RemoveVideo(movie);
         }
 
         /// <summary>
@@ -54,16 +55,48 @@ namespace FilmwerteChallenge.Services
         /// <param name="episode">The movie that is to be removed from storage.</param>
         public void RemoveOneEpisode(Episode episode)
         {
-             _dataAccess.RemoveOneEpisode(episode);
+            _dataAccess.RemoveOneEpisode(episode);
         }
 
         /// <summary>
         /// Gets a list of all stored movies.
         /// </summary>
         /// <returns>Returns a list of all stored movies.</returns>
-        public IEnumerable<Movie> GetAllVideos()
+        public IEnumerable<Movie> GetAllVideos(SortParam sortParam)
         {
-            return  _dataAccess.GetAllVideos();
+            var result = _dataAccess.GetAllVideos(sortParam);
+            if (sortParam.FilterParam.MinDuration > 0)
+            {
+                result = result.Where(movie => movie.Duration > sortParam.FilterParam.MinDuration);
+            }
+
+            if (sortParam.FilterParam.Domain != null && sortParam.FilterParam.Domain.Length > 0)
+            {
+                result = result.Where(movie => new Uri(movie.VideoUri).Host.ToUpper().Contains(sortParam.FilterParam.Domain.ToUpper()));
+            }
+            if (sortParam.FilterParam.HasImdb)
+            {
+                result = result.Where(movie => movie.ImdbId != null && movie.ImdbId.Length > 0);
+            }
+
+
+            switch (sortParam.OrderBy)
+            {
+                case "TITLE":
+                    result = result.OrderBy(movie => movie.Title);
+                    break;
+            }
+
+
+            return result;
+        }
+
+        public int GetAllVideosRunTimeTotal(SortParam sortParam)
+        {
+            var result = GetAllVideos(sortParam);
+
+            return result.Select(m => m.Duration).Aggregate(0, (acc, x) => acc + x);
+
         }
 
         /// <summary>

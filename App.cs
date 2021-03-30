@@ -82,14 +82,13 @@ namespace FilmwerteChallenge
 
         public void Query1()
         {
-            IEnumerable<Movie> allMovies = _storage.GetAllVideos();
+            IEnumerable<Movie> allMovies = _storage.GetAllVideos(new SortParam());
             Console.WriteLine("All movies:");
             var headerSpan = "{0, -36} {1, -25} {2, -15} {3, -25}";
             var detailSpan = "{0, -36} {1, -25} {2, 15} {3, -25}";
-
             Console.WriteLine($"{headerSpan}\n", "ID", "Title", "Duration (mins)", "Video URI");
             foreach (Movie movie in allMovies)
-                Console.WriteLine($"{detailSpan}", movie.Id, movie.Title, movie.Duration / 60, movie.VideoUri);
+                Console.WriteLine($"{detailSpan}", movie.Id, movie.Title, movie.Duration / 60, new Uri(movie.VideoUri).Host);
 
         }
 
@@ -108,21 +107,48 @@ namespace FilmwerteChallenge
 
         public void Query2()
         {
-            IEnumerable<Movie> query1 = _storage.GetAllVideos(); // TODO
+            IEnumerable<Movie> query1 = _storage.GetAllVideos(new SortParam()
+            {
+                FilterParam = new FilterParam()
+                {
+                    MinDuration = 30 * 60,
+                    VideoContentType = Enums.ContentType.Movie
+                },
+            }); // TODO
             Console.WriteLine("\n\nQuery 1:");
             Console.WriteLine("All movies that are longer than 30 minutes");
             foreach (Movie movie in query1)
-                Console.WriteLine(movie.Id);
+                Console.WriteLine(movie.Title);
 
-            IEnumerable<Movie> query2 = _storage.GetAllVideos(); // TODO
-            Console.WriteLine("Query 2:");
+
+
+            IEnumerable<Movie> query2 = _storage.GetAllVideos(new SortParam()
+            {
+                OrderBy = "TITLE",
+                FilterParam = new FilterParam()
+                {
+                    Domain = "YOUTUBE",
+                    VideoContentType = Enums.ContentType.Movie
+                },
+            }); // TODO
+            Console.WriteLine("\n\nQuery 2:");
+            Console.WriteLine("All movies that are hosted on YouTube, ordered by title");
             foreach (Movie movie in query2)
-                Console.WriteLine(movie.Id);
+                Console.WriteLine(movie.Title);
 
-            IEnumerable<Movie> query3 = _storage.GetAllVideos(); // TODO
-            Console.WriteLine("Query 3:");
-            foreach (Movie movie in query3)
-                Console.WriteLine(movie.Id);
+
+            int query3 = _storage.GetAllVideosRunTimeTotal(new SortParam()
+            {
+                FilterParam = new FilterParam()
+                {
+                    HasImdb = true,
+                    VideoContentType = Enums.ContentType.Movie
+                },
+            });
+            Console.WriteLine($"\n\nQuery 3:");
+            Console.WriteLine($"Total runtime of all movies that have an IMDb ID: {query3 / 60}");
+
+
         }
 
         public void WhatIsStorageType()

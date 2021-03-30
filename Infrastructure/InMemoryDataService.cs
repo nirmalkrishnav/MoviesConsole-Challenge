@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using FilmwerteChallenge.Interfaces;
 using FilmwerteChallenge.Models;
 using Microsoft.Extensions.Configuration;
@@ -58,9 +59,10 @@ namespace FilmwerteChallenge.Infrastructure
         /// Gets a list of all stored movies.
         /// </summary>
         /// <returns>Returns a list of all stored movies.</returns>
-        public IEnumerable<Movie> GetAllVideos()
+        public IEnumerable<Movie> GetAllVideos(SortParam sortParam)
         {
-            return this.videos;
+            IEnumerable<Movie> result = this.videos;
+            return result;
         }
 
         /// <summary>
@@ -70,6 +72,7 @@ namespace FilmwerteChallenge.Infrastructure
         public IEnumerable<Episode> GetAllEpisodes()
         {
             return this.episodes;
+
         }
         public int WhatIsStorageType()
         {
