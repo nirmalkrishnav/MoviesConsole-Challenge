@@ -15,7 +15,7 @@
 
 5. Users can change between memory(1), Disk(0)  storage through appsettings.json. storageType variable.
 
-6. Disk storage files are created in ./DB/ folder
+6. Disk storage files are created in ./Db/ folder
 
 7. Reports are generated to ./reports/ folder with timestamp.
 
